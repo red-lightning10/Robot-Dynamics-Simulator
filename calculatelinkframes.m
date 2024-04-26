@@ -21,14 +21,21 @@ M3 = Mj3*M(robot.links(3).A(0)*robot.links(3).r');
 M4 = Mj4*M(robot.links(4).A(0)*robot.links(4).r');
 M5 = Mj5*M(robot.links(5).A(0)*robot.links(5).r');
 M6 = Mj6*M(robot.links(6).A(0)*robot.links(6).r');
+% M1 = Mj1*M(robot.links(1).r');
+% M2 = Mj2*M(robot.links(2).r');
+% M3 = Mj3*M(robot.links(3).r');
+% M4 = Mj4*M(robot.links(4).r');
+% M5 = Mj5*M(robot.links(5).r');
+% M6 = Mj6*M(robot.links(6).r');
 
+% 
+% M1 = Mj1 * [eye(3) [0, -0.02561, 0.00193]'; 0 0 0 1];
+% M2 = Mj2 * [eye(3) [0.2125, 0, 0.11336]'; 0 0 0 1];
+% M3 = Mj3 * [eye(3) [0.15, 0.0, 0.0265]'; 0 0 0 1];
+% M4 = Mj4 * [eye(3) [0, -0.0018, 0.01634]'; 0 0 0 1];
+% M5 = Mj5 * [eye(3) [0, 0.0018, 0.01634]'; 0 0 0 1];
+% M6 = Mj6 * [eye(3) 	[0, 0, -0.001159]'; 0 0 0 1];
 
-  % M1 = Mj1 * [eye(3) [0, -0.02561, 0.00193]'; 0 0 0 1];
-  % M2 = Mj2 * [eye(3) [0.2125, 0, 0.11336]'; 0 0 0 1];
-  % M3 = Mj3 * [eye(3) [0.15, 0.0, 0.0265]'; 0 0 0 1];
-  % M4 = Mj4 * [eye(3) [0, -0.0018, 0.01634]'; 0 0 0 1];
-  % M5 = Mj5 * [eye(3) [0, 0.0018, 0.01634]'; 0 0 0 1];
-  % M6 = Mj6 * [eye(3) 	[0, 0, -0.001159]'; 0 0 0 1];
    
   M01 = M1;
   M12 = pinv(pinv(M2)*M1);

@@ -21,14 +21,18 @@ n = size(S,2); % read the number of joints
 %% Control the motion of the robot between 2 set points
 fprintf('----------------------Dynamic Control of a 6-DoF Arm--------------------\n');
 
-nPts = 3;
+
 fprintf('Generating task space path... ');
-
-path = [0 0.3 0.15;
-        0.25 0 0.1; ...
-        0.25 0.25 0.2]';
+nPts = 100;
+fprintf('Generating task space path... ');
+phi = linspace(0, 4*pi, nPts);
+r = linspace(0, 0.3, nPts) ;
+x = r .* cos(phi) + 0.4;
+y = r  .* sin(phi);
+z = 0.2 * ones(1,nPts);
+path = [x; y; z];
 fprintf('Done.\n');
-
+nPts = size(path,2);
 fprintf('Calculating the Inverse Kinematics... ');
 robot.plot(zeros(1,6)); hold on;
 scatter3(path(1,:), path(2,:), path(3,:), 'filled');
@@ -39,27 +43,10 @@ title('Inverse Dynamics Control');
 waypoints = zeros(n,nPts);
 % waypoints = ...
 currentP = M(1:3,4);
-currentPose = MatrixLog6(M);
-currentPose = [currentPose(3,2) currentPose(1,3) currentPose(2,1) currentPose(1:3,4)']';
 currentQ = zeros(1,n);
 
-for i = 1:nPts
-    while norm(path(:,i) - currentP) > 1e-1
-        disp(norm(path(:,i) - currentP))
-        J = jacoba(S, M, currentQ);
-        Jinv = J'/(J*J' + 0.1*eye(length(J*J'))); %damped least
-        deltaQ = Jinv* (path(:, i) - currentP);
-        currentQ = currentQ + deltaQ';
-        T = fkine(S,M,currentQ, 'space');
-        currentP = T(1:3,4);
-        currentPose = MatrixLog6(T);
-        currentPose = [currentPose(3,2) ...
-                   currentPose(1,3) ...
-                   currentPose(2,1) ...
-                   currentPose(1:3,4)']';
-
-    end
-    waypoints(:,i) = currentQ;
+for i = 1:nPts    
+    waypoints(:,i) = ikin(S, M, currentQ, path(:,i));
 end
 
 fprintf('Done.\n');
@@ -76,8 +63,8 @@ for jj = 1 : nPts - 1
     nbytes = fprintf('%3.0f%%', 100*(jj/(nPts - 1)));
    
     % Initialize the time vector
-    dt = 0.7;       % time step [s]
-    t  = 0 : dt : 5; % total time [s]
+    dt = 1;       % time step [s]
+    t  = 0 : dt : 1; % total time [s]
 
     % Initialize the arrays where we will accumulate the output of the robot
     % dynamics
