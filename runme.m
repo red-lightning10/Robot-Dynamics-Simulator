@@ -1,5 +1,5 @@
-clear, clc, close all
-addpath('../lib');
+clear all, clc, close all
+addpath('lib');
 
 plotOn = false;
 
@@ -21,7 +21,7 @@ n = size(S,2); % read the number of joints
 %% Control the motion of the robot between 2 set points
 fprintf('----------------------Dynamic Control of a 6-DoF Arm--------------------\n');
 
-nPts = 100;
+nPts = 3;
 fprintf('Generating task space path... ');
 
 path = [0 0.3 0.15;
@@ -76,8 +76,8 @@ for jj = 1 : nPts - 1
     nbytes = fprintf('%3.0f%%', 100*(jj/(nPts - 1)));
    
     % Initialize the time vector
-    dt = 1;       % time step [s]
-    t  = 0 : dt : 1; % total time [s]
+    dt = 0.7;       % time step [s]
+    t  = 0 : dt : 5; % total time [s]
 
     % Initialize the arrays where we will accumulate the output of the robot
     % dynamics
@@ -160,7 +160,7 @@ fprintf('\nDone. Simulating the robot...');
 
 %% Animate the robot
 title('Inverse Dynamics Control');
-robot.plot(jointPos_acc(:,1:15:end)','trail',{'r', 'LineWidth', 2}, 'movie', 'RBE-501-2023-HW4-spiral-wo_payload.mp4');
+robot.plot(jointPos_acc(:,1:end)','trail',{'r', 'LineWidth', 2}, 'movie', 'RBE-501-2023-HW4-spiral-wo_payload.mp4');
 fprintf('Done.\n');
 
 %% Display the Joint Torques
