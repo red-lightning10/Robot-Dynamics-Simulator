@@ -44,5 +44,3 @@ This document outlines the steps and functions used in the Robot-Dynamics-Simula
   - `jointAcl_acc` - Joint accelerations.
   - `t_acc` - Time intervals.
 
-## Sample Inputs
-- 
